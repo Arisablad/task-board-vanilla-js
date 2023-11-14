@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">:
+    <script src="app.js" defer type="module"></script>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <nav class="navigation">
+            <button class="expand-boards">Expand Boards</button>
+            <h1 id="board-name-header">Board Name</h1>
+        </nav>
+        <div id="board-list-wrapper" class="boards-list-hidden">
+            <div class="sidebar-header">
+                <p class="sidebar-header-heading">Trelo Clone</p>
+                <button class="close-menu">X</button>
+            </div>
+            <p>BOARDS</p>
+
+            <div id="boards">
+                <!-- <div class="board-name">1</div>
+                <div class="board-name">2</div> -->
+            </div>
+
+            <input type="text" id="add-board-input" class="add-input" placeholder="board-name">
+            <button id="add-board-button">Add Board</button>
+        </div>
+        <div class="cards-list-wrapper">
+            <div id="cards-list" class="cards-list">
+                <!-- <div class="card">
+                    <div class="card-header">
+                        <p class="card-title">Card Title</p>
+                        <button class="card-option">Options</button>
+                    </div>
+                    <div class="tasks-wrapper" id="caffle-name">
+                        <div class="task-list">
+                            <p>Task One</p>
+                            <p>Task Two</p>
+                        </div>
+                        <input type="text" class="add-input" placeholder="add-task" />
+                        <button class="add-task">Add Task</button>
+                    </div>
+                </div> -->
+            </div>
+
+            <div class="add-card">
+                <input type="text" id="add-card-input" class="add-input" placeholder="card-title"></input>
+                <button class="add-card-button">+</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
