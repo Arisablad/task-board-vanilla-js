@@ -18,6 +18,7 @@ color: whitesmoke;
     width: 100%;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 0.8rem;
 }
 
 .expand-boards{
@@ -123,6 +124,12 @@ color: whitesmoke;
 .board-name:hover{
     background-color: rgb(65, 114, 116);
 }
+#board-name-header{
+    font-size: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 3px;
+    font-weight: 800;
+}
 
 
 
@@ -200,4 +207,41 @@ color: whitesmoke;
     cursor: pointer;
     transition: all 0.4s ease;
     text-align: center;
+}
+
+.hidden{
+    display: none;
+}
+
+.no-board-selected{
+    font-size: 3rem;
+    width: 100%;
+    position: relative;
+    padding: 8rem;
+    /* background-color: aliceblue; */
+}
+.no-board-selected::before{
+    content: "\2196";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: blue;
+    padding-inline: 1.2rem;
+    font-size: 4rem;
+    border-radius: 12px;
+}
+
+.tasks-list{
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.task{
+    padding: 0.8rem;
+    background-color: darkslategrey;
+    display: flex;
+    justify-content: space-between;
+    color: aliceblue;
+    border-radius: 0.8rem;
 }

@@ -12,22 +12,14 @@ const boardListWrapper = document.getElementById("board-list-wrapper");
 
 
 // GLOBALS
-let boards = []
+const boards = []
 let currentBoard = null
 
 
 
 function toggleMenu() {
-        if(boardListWrapper.classList.contains("boards-list-hidden"))
-        {
-        boardListWrapper.classList.remove("boards-list-hidden");
-        boardListWrapper.classList.add("boards-list")
-        }
-    
-        else{
-        boardListWrapper.classList.remove("boards-list")
-        boardListWrapper.classList.add("boards-list-hidden");
-        }
+          boardListWrapper.classList.toggle("boards-list-hidden");
+          boardListWrapper.classList.toggle("boards-list");
 }
 
 function addBoardToTheList(){
@@ -40,8 +32,8 @@ function addBoardToTheList(){
             cards: []
     })
     }
-    // Clear input field
-    boardNameInput.value = "";
+    
+    clearInputField(boardNameInput);
 
     // updateBoardList
     updateBoardList()
@@ -94,8 +86,7 @@ function addCardForCurrentBoard(){
             cardName: cardName,
             tasks: []
         })
-    // Clear input field
-    cardNameInput.value = "";
+    clearInputField(cardNameInput);
     }
     renderCardsForCurrentBoard()
 }
@@ -104,12 +95,34 @@ function addCardForCurrentBoard(){
 function renderCardsForCurrentBoard(){
     const cardsList = document.getElementById("cards-list");
     cardsList.innerHTML = "";
-  
-    currentBoard.cards.forEach((card) => {
-      const cardItem = createCardElement(card);
-      cardsList.appendChild(cardItem);
-    });
+
+    if(!currentBoard){
+        renderHtmlIfNoBoard(cardsList)
+    }
+    else{
+        const addCard = document.querySelector(".add-card")
+        addCard.classList.remove("hidden");
+        currentBoard.cards.forEach((card) => {
+            const cardItem = createCardElement(card);
+            cardsList.appendChild(cardItem);
+          });
+    }
+    addListenersForAddTaskButton()
 }
+
+
+function renderHtmlIfNoBoard(cardsList){
+    const noBoardSelected = document.createElement("div");
+    const addCard = document.querySelector(".add-card")
+    addCard.classList.add("hidden");
+
+    // Appending div if no cards available
+    noBoardSelected.classList.add("no-board-selected");
+    noBoardSelected.innerText = "No Board Selected";
+    cardsList.appendChild(noBoardSelected);
+    return
+}
+
 
 
 
@@ -162,9 +175,104 @@ function createCardElement(card) {
     cardTasks.appendChild(addTaskButton);
   
     cardItem.appendChild(cardTasks);
-  
+    
+
     return cardItem;
   }
+
+  function clearInputField(inputField) {
+    inputField.value = "";
+  }
+
+
+  function addListenersForAddTaskButton(){
+    document.querySelectorAll(".add-task").forEach((button) => {
+        button.addEventListener("click", (event)=>{addTaskToCard(event)})
+    })
+  }
+
+  function addTaskToCard(event){
+    const inputElementFromCurrentCard = event.target.parentElement.querySelector(".add-input")
+    const inputElementValue = inputElementFromCurrentCard.value.trim()
+
+    if(inputElementValue.length === 0){
+    return 
+    }
+
+    const clickedButton = event.target
+    const clickedButtonId = clickedButton.getAttribute("add-task-button-id")
+
+    const cardForCurrentTask =  currentBoard.cards.find((card)=> card.cardId === clickedButtonId)
+    cardForCurrentTask.tasks.push({
+        taskId: generateRandomId(),
+        taskName: inputElementValue
+    })
+
+    renderTasksForCard(cardForCurrentTask)
+    clearInputField(inputElementFromCurrentCard)
+  }
+
+
+
+function renderTasksForCard(card){
+    const tasksList = document.querySelector(`[card-tasks-list-id="${card.cardId}"]`)
+    tasksList.innerHTML = ""
+
+
+
+    // RENDER SOME INFO ELEMENT IF CARD DOESNT HAVE TASKS YET
+    if(card.tasks.length === 0){
+        const noTasksElement = document.createElement("p")
+        noTasksElement.innerText = "No tasks"
+        tasksList.appendChild(noTasksElement)
+        return
+    }
+
+    card.tasks.forEach((task)=>{
+        tasksList.appendChild(createTaskElement(task))
+    })
+}
+
+
+function createTaskElement(task){
+    const taskElement = document.createElement("div")
+    taskElement.classList.add("task")
+    taskElement.setAttribute("task-element-id", task.taskId)
+
+
+    const taskTitle = document.createElement("p")
+    taskTitle.textContent = task.taskName
+    taskTitle.classList.add("task-title")
+    taskTitle.setAttribute("task-title-id", task.taskId)
+
+
+    const taskOptionsWrapper = document.createElement("div")
+    taskOptionsWrapper.classList.add("task-options-wrapper")
+    taskOptionsWrapper.setAttribute("task-options-wrapper-id", task.taskId)
+
+    
+    // TODO ADD EVENT LISTENERS HERE FOR EDITING
+    const editTaskButton = document.createElement("button")
+    editTaskButton.textContent = "edit"
+    editTaskButton.setAttribute("edit-task-button-id", task.taskId) 
+
+    // TODO ADD EVENT LISTENERS HERE FOR REMOVING TASKS
+    const removeTaskButton = document.createElement("button")
+    removeTaskButton.textContent = "remove"
+    removeTaskButton.setAttribute("remove-task-button-id", task.taskId) 
+
+
+
+
+    // APPENDING ELEMENTS IN CORRECT ORDER
+    taskOptionsWrapper.appendChild(editTaskButton)
+    taskOptionsWrapper.appendChild(removeTaskButton)
+    
+    taskElement.appendChild(taskTitle)
+    taskElement.appendChild(taskOptionsWrapper)
+
+    return taskElement
+}
 
 
 
@@ -175,3 +283,8 @@ menuToggleButton.addEventListener("click", toggleMenu)
 addBoardButton.addEventListener("click", addBoardToTheList)
 addCardButton.addEventListener("click", addCardForCurrentBoard)
 addListenersForBoards()
+
+
+
+// Init
+renderCardsForCurrentBoard()
