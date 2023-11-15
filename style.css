@@ -268,6 +268,7 @@ color: whitesmoke;
     flex-direction: column;
     gap: 1.8rem;
     min-width: 30rem;
+    padding: 2.4rem;
 }
 .add-card-button{
     padding: 16px;
@@ -431,7 +432,7 @@ color: whitesmoke;
 }
 
 
-.edit-card-button, .clear-card-button, .cancel-card-button{
+.remove-card-button, .clear-card-button, .cancel-card-button{
     padding: 0.8rem;
     cursor: pointer;
     background-color: #333;
@@ -440,16 +441,9 @@ color: whitesmoke;
     color: aliceblue;
     transition: all 0.3s ease-in;
 } 
-.edit-card-button:hover, .clear-card-button:hover, .cancel-card-button:hover{
+.remove-card-button:hover, .clear-card-button:hover, .cancel-card-button:hover{
     background-color: #111;
 }
-
-
-
-
-
-
-
 .hidden{
     display: none;
 }

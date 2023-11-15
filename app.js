@@ -257,7 +257,7 @@ function showCardOptions(event, cardId){
   clickedButton.classList.add("hidden")
 
 
-  optionsCardList.appendChild(createEditCardOptionButton(cardId))
+  optionsCardList.appendChild(createRemoveCardOptionButton(cardId))
   optionsCardList.appendChild(createClearCardOptionButton(cardId))
   optionsCardList.appendChild(createCancelCardOptionButton(cardId,clickedButton))
 
@@ -269,12 +269,20 @@ function showCardOptions(event, cardId){
 
 
 
-function createEditCardOptionButton(cardId){
-    const editCardOption = document.createElement("button")
-    editCardOption.innerText = "remove"
-    editCardOption.setAttribute("edit-card-option-id", cardId)
-    editCardOption.classList.add("edit-card-button")
-    return editCardOption
+function createRemoveCardOptionButton(cardId){
+    const removeCardOption = document.createElement("button")
+    removeCardOption.innerText = "remove"
+    removeCardOption.setAttribute("remove-card-option-id", cardId)
+    removeCardOption.classList.add("remove-card-button")
+
+    removeCardOption.addEventListener("click", ()=>{
+      currentBoard.cards = currentBoard.cards.filter((card) => card.cardId !== cardId)
+      renderCardsForCurrentBoard();
+      currentBoard.cards.forEach((card) => {
+        renderTasksForCard(card);
+      });
+    })
+    return removeCardOption
 }
 
 function createClearCardOptionButton(cardId){
