@@ -78,6 +78,7 @@ function renderHeaderForCurrentBoard(){
 
 
 function addCardForCurrentBoard(){
+    console.log("check")
     const cardNameInput = document.querySelector("#add-card-input");
     const cardName = cardNameInput.value.trim();
     if(cardName !==""){
@@ -89,6 +90,11 @@ function addCardForCurrentBoard(){
     clearInputField(cardNameInput);
     }
     renderCardsForCurrentBoard()
+
+    // Render tasks once more after adding new card
+    currentBoard.cards.forEach((card) => {
+        renderTasksForCard(card)
+    });
 }
 
 
@@ -109,6 +115,21 @@ function renderCardsForCurrentBoard(){
     }
     addListenersForAddTaskButton()
 }
+
+// function renderAllTasks() {
+//     const tasksList = document.getElementById("tasks-list");
+//     tasksList.innerHTML = "";
+  
+//     if (!currentBoard) {
+//       renderHtmlIfNoBoard(tasksList);
+//     } else {
+//       currentBoard.cards.forEach((card) => {
+//         card.tasks.forEach((task) => {
+//           tasksList.appendChild(createTaskElement(task, card));
+//         });
+//       });
+//     }
+//   }
 
 
 function renderHtmlIfNoBoard(cardsList){
@@ -229,12 +250,12 @@ function renderTasksForCard(card){
     }
 
     card.tasks.forEach((task)=>{
-        tasksList.appendChild(createTaskElement(task))
+        tasksList.appendChild(createTaskElement(task,card))
     })
 }
 
 
-function createTaskElement(task){
+function createTaskElement(task, card){
     const taskElement = document.createElement("div")
     taskElement.classList.add("task")
     taskElement.setAttribute("task-element-id", task.taskId)
@@ -254,13 +275,20 @@ function createTaskElement(task){
     // TODO ADD EVENT LISTENERS HERE FOR EDITING
     const editTaskButton = document.createElement("button")
     editTaskButton.textContent = "edit"
-    editTaskButton.setAttribute("edit-task-button-id", task.taskId) 
+    editTaskButton.classList.add("edit-task-button")
+    editTaskButton.setAttribute("edit-task-button-id", task.taskId)
 
     // TODO ADD EVENT LISTENERS HERE FOR REMOVING TASKS
     const removeTaskButton = document.createElement("button")
     removeTaskButton.textContent = "remove"
+    removeTaskButton.classList.add("remove-task-button")
     removeTaskButton.setAttribute("remove-task-button-id", task.taskId) 
 
+
+    // listeners for buttons
+    removeTaskButton.addEventListener("click", (event)=>{
+        removeTask(event, card, task)
+    })
 
 
 
@@ -273,6 +301,11 @@ function createTaskElement(task){
 
     return taskElement
 }
+
+    function removeTask(event, cardToRemove, taskToRemove){
+        cardToRemove.tasks = cardToRemove.tasks.filter((task) => task.taskId !== taskToRemove.taskId)
+        renderTasksForCard(card)
+    }
 
 
 

@@ -171,7 +171,15 @@ color: whitesmoke;
 .card-option{
     border: none;
     padding: 1.2rem;
+    cursor: pointer;
+    border-radius: 0.8rem;
+    transition: all 0.3s ease-in-out;
 }
+.card-option:hover{
+    background-color: #444;
+    color: whitesmoke;
+}
+
 .tasks-wrapper{
     display: flex;
     flex-direction: column;
@@ -244,4 +252,25 @@ color: whitesmoke;
     justify-content: space-between;
     color: aliceblue;
     border-radius: 0.8rem;
+}
+.task-options-wrapper{
+    display: flex;
+    gap: 0.8rem;
+}
+
+.edit-task-button, .remove-task-button{
+    padding: 0.6rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.6rem;
+    transition: all 0.4s ease-in-out;
+    color: whitesmoke;
+}
+
+.edit-task-button{
+    background-color: rgb(79, 61, 197);
+}
+
+.remove-task-button {
+    background-color: rgb(240, 55, 55);
 }
