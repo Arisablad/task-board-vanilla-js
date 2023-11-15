@@ -13,6 +13,7 @@ width: 100vh;
 height: 100vh;
 background: #333;
 color: whitesmoke;
+overflow-x: hidden;
 }
 
 
