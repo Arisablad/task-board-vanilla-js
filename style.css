@@ -260,7 +260,11 @@ color: whitesmoke;
 .add-task:hover{
     background-color: rgb(70, 107, 14);
 }
-
+.form-add-task{
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem ;
+}
 
 .add-card{
     text-align: center;

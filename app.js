@@ -223,6 +223,11 @@ function createCardElement(card) {
   const tasksList = document.createElement("div");
   tasksList.classList.add("tasks-list");
   tasksList.setAttribute("card-tasks-list-id", card.cardId);
+
+  const formAddTaskWrapper = document.createElement("form")
+  formAddTaskWrapper.classList.add("form-add-task")
+
+
   const addTaskInput = document.createElement("input");
   addTaskInput.classList.add("add-input");
   addTaskInput.setAttribute("add-task-input-id", card.cardId);
@@ -231,9 +236,15 @@ function createCardElement(card) {
   addTaskButton.classList.add("add-task");
   addTaskButton.setAttribute("add-task-button-id", card.cardId);
   addTaskButton.innerText = "Add Task";
+  addTaskButton.type = "submit"
+
+  
   cardTasks.appendChild(tasksList);
-  cardTasks.appendChild(addTaskInput);
-  cardTasks.appendChild(addTaskButton);
+  formAddTaskWrapper.appendChild(addTaskInput)
+  formAddTaskWrapper.appendChild(addTaskButton)
+
+  // cardTasks.appendChild(addTaskInput);
+  cardTasks.appendChild(formAddTaskWrapper);
   cardItem.appendChild(cardTasks);
   return cardItem;
 }
@@ -245,6 +256,7 @@ function clearInputField(inputField) {
 function addListenersForAddTaskButton() {
   cardsList.querySelectorAll(".add-task").forEach((button) => {
     button.addEventListener("click", (event) => {
+      event.preventDefault()
       addTaskToCard(event);
     });
   });
