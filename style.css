@@ -74,6 +74,7 @@ color: whitesmoke;
 .container{
     padding: 16px;
     min-width: 100vw;
+    max-width: 100vw;
     height: fit-content;
     padding-right: 100px;
 }
@@ -180,7 +181,7 @@ color: whitesmoke;
     gap: 0.8rem;
 }
 .cards-list{
-    padding: 2.4rem;
+    padding-left: 2.4rem;
     display: flex;
     gap: 1.6rem;
 }
