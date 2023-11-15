@@ -16,6 +16,15 @@ let boards = [];
 let currentBoard = null;
 
 function toggleMenu() {
+  const boardsTitles =  document.querySelectorAll(".board-name-text")
+
+  boardsTitles && boardsTitles.length > 0 && boardsTitles.forEach(text=> {
+    if(boardListWrapper.classList.contains("hidden")){
+      text.style.setProperty('--display-tooltip-sidebar','block');
+    } else{
+      text.style.setProperty('--display-tooltip-sidebar', "hidden");
+    }
+  })
   boardListWrapper.classList.toggle("hidden")
   boardListWrapper.classList.toggle("boards-list-hidden");
   boardListWrapper.classList.toggle("boards-list");
