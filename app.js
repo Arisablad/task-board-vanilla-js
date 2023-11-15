@@ -105,6 +105,7 @@ function addListenersForBoards() {
       );
       renderHeaderForCurrentBoard();
       renderCardsForCurrentBoard();
+      toggleMenu()
       // RENDER TASKS FOR ALL CARDS
       currentBoard.cards.forEach((card) => {
         renderTasksForCard(card);
@@ -205,6 +206,12 @@ function createCardElement(card) {
   cardOptions.classList.add("card-option");
   cardOptions.setAttribute("card-option-id", card.cardId);
   cardOptions.innerText = "Options";
+
+  cardOptions.addEventListener("click", (event)=>{
+    showCardOptions(event, card.cardId)
+  })
+
+
   cardHeader.appendChild(cardTitle);
   cardHeader.appendChild(cardOptions);
   cardItem.appendChild(cardHeader);
@@ -240,6 +247,66 @@ function addListenersForAddTaskButton() {
     });
   });
 }
+
+function showCardOptions(event, cardId){
+  const clickedCard = event.target.parentElement
+  const clickedButton = event.target
+  const optionsCardList = document.createElement("div")
+  optionsCardList.classList.add("options-card-list-wrapper")
+  optionsCardList.setAttribute("options-card-list-wrapper-id", cardId)
+  clickedButton.classList.add("hidden")
+
+
+  optionsCardList.appendChild(createEditCardOptionButton(cardId))
+  optionsCardList.appendChild(createClearCardOptionButton(cardId))
+  optionsCardList.appendChild(createCancelCardOptionButton(cardId,clickedButton))
+
+
+  clickedCard.appendChild(optionsCardList)
+  // optionsCardList.setAttribute("options-card-list-id")
+  console.log("clickedCard,", clickedCard)
+}
+
+
+
+function createEditCardOptionButton(cardId){
+    const editCardOption = document.createElement("button")
+    editCardOption.innerText = "remove"
+    editCardOption.setAttribute("edit-card-option-id", cardId)
+    editCardOption.classList.add("edit-card-button")
+    return editCardOption
+}
+
+function createClearCardOptionButton(cardId){
+  const clearCardOption = document.createElement("button")
+  clearCardOption.innerText = "Clear"
+  clearCardOption.setAttribute("clear-card-option-id", cardId)
+  clearCardOption.classList.add("clear-card-button")
+
+  clearCardOption.addEventListener("click", ()=>{
+    const cardToRerender = currentBoard.cards.find((card) => card.cardId === cardId);
+    cardToRerender.tasks = []
+    renderTasksForCard(cardToRerender)
+  })
+
+  return clearCardOption
+}
+
+function createCancelCardOptionButton(cardId,buttonToShow){
+  const cancelCardOption = document.createElement("button")
+  cancelCardOption.innerText = "Cancel"
+  cancelCardOption.setAttribute("cancel-card-option-id", cardId)
+  cancelCardOption.classList.add("cancel-card-button")
+
+  cancelCardOption.addEventListener("click", (event)=>{
+    const divToRemove = document.querySelector(`[options-card-list-wrapper-id="${cardId}"]`)
+    divToRemove.remove()
+    buttonToShow.classList.remove("hidden")
+  })
+  return cancelCardOption
+}
+
+
 
 function addTaskToCard(event) {
   const inputElementFromCurrentCard = event.target.parentElement.querySelector(

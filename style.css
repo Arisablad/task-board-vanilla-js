@@ -176,6 +176,7 @@ color: whitesmoke;
     gap: 0.8rem;
 }
 .cards-list{
+    padding: 2.4rem;
     display: flex;
     gap: 1.6rem;
 }
@@ -208,17 +209,20 @@ color: whitesmoke;
     cursor: help;
 }
 .card-title::before{
-    top: -40px;
+    top: -60px;
+    left: -80px;
     background-color: beige;
     width: fit-content;
-    max-width: 900px;
-    content: "Full card Name:" attr(data-title);
+    max-width: 250px;
+    max-height: 90px;
+    word-wrap: break-word;
+    overflow-y: auto;
+    content: "Full Card Name: "attr(data-title);
     position: absolute;
     opacity: 0;
     transition: all 0.6s ease-in-out;
     z-index: 60;
     padding: 1.4rem;
-    overflow: hidden;
     text-overflow: ellipsis;
     border-radius: 0.6rem;
     margin-bottom: 20px;
@@ -420,6 +424,25 @@ color: whitesmoke;
 }
 
 
+
+.options-card-list-wrapper{
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+.edit-card-button, .clear-card-button, .cancel-card-button{
+    padding: 0.8rem;
+    cursor: pointer;
+    background-color: #333;
+    border: none;
+    border-radius: 0.3rem;
+    color: aliceblue;
+    transition: all 0.3s ease-in;
+} 
+.edit-card-button:hover, .clear-card-button:hover, .cancel-card-button:hover{
+    background-color: #111;
+}
 
 
 
