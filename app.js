@@ -12,7 +12,7 @@ const boardsList = document.getElementById("boards");
 const cardsList = document.getElementById("cards-list");
 
 // GLOBALS
-const boards = [];
+let boards = [];
 let currentBoard = null;
 
 function toggleMenu() {
@@ -44,10 +44,48 @@ function generateRandomId() {
 function updateBoardList() {
   boardsList.innerHTML = "";
   for (let i = 0; i < boards.length; i++) {
+    let removeBoardButton = null
+    if (i !== 0){
+    removeBoardButton = document.createElement("button");
+    removeBoardButton.classList.add("remove-board");
+    removeBoardButton.setAttribute("board-id", boards[i].boardId);
+    removeBoardButton.innerText = "X";
+    removeBoardButton.addEventListener("click", (event) => {
+        event.stopPropagation()
+       
+        // TARGETING TO SELECT FIRST BOARD AFTER REMOVING AVAILABLE ON LIST
+        if(event.target.parentElement.parentElement.firstChild && boards.length > 1){
+            console.log("exist")
+            event.target.parentElement.parentElement.firstChild.click()
+        } else {
+            currentBoard = null
+            const currentHeader = document.getElementById("board-name-header");
+            currentHeader.textContent = ""
+            renderCardsForCurrentBoard();
+        }
+
+
+        const boardId = removeBoardButton.getAttribute("board-id");
+        boards = boards.filter((board) => board.boardId !== boardId);
+        updateBoardList()
+    })
+}
+
+
     const boardItem = document.createElement("div");
     boardItem.classList.add("board-name");
     boardItem.setAttribute("board-id", boards[i].boardId);
-    boardItem.innerText = boards[i].boardName;
+
+    const boardItemText = document.createElement("p");
+    boardItemText.classList.add("board-name-text");
+    boardItemText.textContent = boards[i].boardName
+    
+
+
+    boardItem.appendChild(boardItemText)
+    if (i !== 0 && removeBoardButton){
+    boardItem.appendChild(removeBoardButton)
+    }
     boardsList.appendChild(boardItem);
   }
   addListenersForBoards();
@@ -56,7 +94,8 @@ function updateBoardList() {
 function addListenersForBoards() {
   const boardNames = boardsList.querySelectorAll(".board-name");
   boardNames.forEach((previousBoard) => {
-    previousBoard.addEventListener("click", () => {
+    previousBoard.addEventListener("click", (event) => {
+        console.log("clicked" )
       currentBoard = boards.find(
         (board) => board.boardId === previousBoard.getAttribute("board-id")
       );

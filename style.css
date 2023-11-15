@@ -120,6 +120,8 @@ color: whitesmoke;
     border-radius: 0.4rem;
     cursor: pointer;
     transition: all 0.3s ease-in;
+    display: flex;
+    justify-content: space-between;
 }
 .board-name:hover{
     background-color: rgb(65, 114, 116);
@@ -258,7 +260,7 @@ color: whitesmoke;
     gap: 0.8rem;
 }
 
-.edit-task-button, .remove-task-button{
+.edit-task-button, .remove-task-button, .remove-board{
     padding: 0.6rem;
     border: none;
     cursor: pointer;
@@ -271,6 +273,6 @@ color: whitesmoke;
     background-color: rgb(79, 61, 197);
 }
 
-.remove-task-button {
+.remove-task-button, .remove-board {
     background-color: rgb(240, 55, 55);
 }
