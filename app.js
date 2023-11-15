@@ -372,10 +372,10 @@ function createTaskElement(task, card) {
   taskOptionsWrapper.setAttribute("task-options-wrapper-id", task.taskId);
     
     // TODO ADD EVENT LISTENERS HERE FOR EDITING
-    const editTaskButton = document.createElement("button");
-    editTaskButton.textContent = "edit";
-    editTaskButton.classList.add("edit-task-button");
-    editTaskButton.setAttribute("edit-task-button-id", task.taskId);
+    // const editTaskButton = document.createElement("button");
+    // editTaskButton.textContent = "edit";
+    // editTaskButton.classList.add("edit-task-button");
+    // editTaskButton.setAttribute("edit-task-button-id", task.taskId);
     
 
 
@@ -394,7 +394,7 @@ function createTaskElement(task, card) {
 
 
     // APPENDING ELEMENTS IN CORRECT ORDER
-    taskOptionsWrapper.appendChild(editTaskButton)
+    // taskOptionsWrapper.appendChild(editTaskButton)
     taskOptionsWrapper.appendChild(removeTaskButton)
     
     taskElement.appendChild(taskTitle)
