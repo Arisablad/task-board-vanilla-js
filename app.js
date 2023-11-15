@@ -21,7 +21,8 @@ function toggleMenu() {
   boardListWrapper.classList.toggle("boards-list");
 }
 
-function addBoardToTheList() {
+function addBoardToTheList(event) {
+  event.preventDefault()
   const boardName = boardNameInput.value.trim();
   if (boardName !== "") {
     boards.push({
@@ -147,7 +148,8 @@ function showAlert(title, description, severity){
     }, 5000)
 }
 
-function addCardForCurrentBoard() {
+function addCardForCurrentBoard(event) {
+  event.preventDefault()
   const cardName = cardNameInput.value.trim();
   if (cardName !== "") {
     currentBoard.cards.push({
@@ -225,7 +227,7 @@ function createCardElement(card) {
   tasksList.setAttribute("card-tasks-list-id", card.cardId);
 
   const formAddTaskWrapper = document.createElement("form")
-  formAddTaskWrapper.classList.add("form-add-task")
+  formAddTaskWrapper.classList.add("form-add-task-")
 
 
   const addTaskInput = document.createElement("input");
@@ -425,8 +427,10 @@ function createTaskElement(task, card) {
 // EVENT LISTENERS 
 expandBoardsButton.addEventListener("click", toggleMenu)
 menuToggleButton.addEventListener("click", toggleMenu)
-addBoardButton.addEventListener("click", addBoardToTheList)
-addCardButton.addEventListener("click", addCardForCurrentBoard)
+addBoardButton.addEventListener("click", (event)=>{addBoardToTheList(event)})
+addCardButton.addEventListener("click", (event)=>{
+  addCardForCurrentBoard(event)
+})
 addListenersForBoards()
 
 
