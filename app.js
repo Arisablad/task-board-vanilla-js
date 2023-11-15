@@ -28,6 +28,8 @@ function addBoardToTheList() {
       boardName: boardName,
       cards: [],
     });
+  } else{
+    showAlert("No Board Name", "You need to provide name for a Board", "danger")
   }
   clearInputField(boardNameInput);
   // updateBoardList
@@ -111,7 +113,33 @@ function addListenersForBoards() {
 
 function renderHeaderForCurrentBoard() {
   const currentHeader = document.getElementById("board-name-header");
-  currentHeader.textContent = currentBoard.boardName;
+  currentHeader.textContent = `Current Board: ${currentBoard.boardName}`
+}
+
+function showAlert(title, description, severity){
+    const toast = document.querySelector(".toast-hidden")
+    toast.classList.toggle("toast-hidden")
+    toast.classList.toggle("toast")
+
+    document.querySelector(".toast-title").innerText = title
+    document.querySelector(".toast-description").innerText = description
+
+
+    switch(severity){
+        case "danger": {
+            toast.classList.toggle("red")
+            
+        }
+        case "success": {
+            toast.classList.toggle("green")
+            break
+        }
+    }
+
+    setTimeout(()=>{
+        toast.classList.toggle("toast-hidden")
+        toast.classList.toggle("toast")
+    }, 5000)
 }
 
 function addCardForCurrentBoard() {
@@ -123,6 +151,8 @@ function addCardForCurrentBoard() {
       tasks: [],
     });
     clearInputField(cardNameInput);
+  } else{
+    showAlert("No card Name", "please provide card Name", "danger")
   }
   renderCardsForCurrentBoard();
   // Render tasks once more after adding new card
@@ -167,6 +197,7 @@ function createCardElement(card) {
   const cardTitle = document.createElement("p");
   cardTitle.classList.add("card-title");
   cardTitle.setAttribute("card-title-id", card.cardId);
+  cardTitle.dataset.title = card.cardName
   cardTitle.innerText = card.cardName;
   const cardOptions = document.createElement("button");
   cardOptions.classList.add("card-option");
@@ -214,6 +245,7 @@ function addTaskToCard(event) {
   );
   const inputElementValue = inputElementFromCurrentCard.value.trim();
   if (inputElementValue.length === 0) {
+    showAlert("Task Name", "please provide a task Name", "danger")
     return;
   }
   const clickedButton = event.target;
@@ -254,6 +286,8 @@ function createTaskElement(task, card) {
   taskTitle.textContent = task.taskName;
   taskTitle.classList.add("task-title");
   taskTitle.setAttribute("task-title-id", task.taskId);
+
+
   const taskOptionsWrapper = document.createElement("div");
   taskOptionsWrapper.classList.add("task-options-wrapper");
   taskOptionsWrapper.setAttribute("task-options-wrapper-id", task.taskId);
@@ -263,7 +297,9 @@ function createTaskElement(task, card) {
     editTaskButton.textContent = "edit";
     editTaskButton.classList.add("edit-task-button");
     editTaskButton.setAttribute("edit-task-button-id", task.taskId);
-    // TODO ADD EVENT LISTENERS HERE FOR REMOVING TASKS
+    
+
+
     const removeTaskButton = document.createElement("button")
     removeTaskButton.textContent = "remove"
     removeTaskButton.classList.add("remove-task-button")
