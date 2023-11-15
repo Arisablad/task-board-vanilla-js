@@ -130,12 +130,14 @@ function showAlert(title, description, severity){
 
     switch(severity){
         case "danger": {
-            toast.classList.toggle("red")
-            
+            toast.classList.remove("green")
+            toast.classList.add("red")
+            break;
         }
         case "success": {
+            toast.classList.remove("red")
             toast.classList.toggle("green")
-            break
+            break;
         }
     }
 
