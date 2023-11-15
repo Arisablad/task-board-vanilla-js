@@ -66,6 +66,11 @@ boardNames.forEach(previousBoard => {
         currentBoard = boards.find(board => board.boardId === previousBoard.getAttribute("board-id"))
         renderHeaderForCurrentBoard()
         renderCardsForCurrentBoard()
+
+        // RENDER TASKS FOR ALL CARDS
+        currentBoard.cards.forEach((card) => {
+            renderTasksForCard(card)
+        });
     })
 })
 }
@@ -78,7 +83,6 @@ function renderHeaderForCurrentBoard(){
 
 
 function addCardForCurrentBoard(){
-    console.log("check")
     const cardNameInput = document.querySelector("#add-card-input");
     const cardName = cardNameInput.value.trim();
     if(cardName !==""){
@@ -288,6 +292,7 @@ function createTaskElement(task, card){
     // listeners for buttons
     removeTaskButton.addEventListener("click", (event)=>{
         removeTask(event, card, task)
+        renderTasksForCard(card)
     })
 
 
@@ -304,7 +309,6 @@ function createTaskElement(task, card){
 
     function removeTask(event, cardToRemove, taskToRemove){
         cardToRemove.tasks = cardToRemove.tasks.filter((task) => task.taskId !== taskToRemove.taskId)
-        renderTasksForCard(card)
     }
 
 
