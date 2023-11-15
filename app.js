@@ -16,6 +16,7 @@ let boards = [];
 let currentBoard = null;
 
 function toggleMenu() {
+  boardListWrapper.classList.toggle("hidden")
   boardListWrapper.classList.toggle("boards-list-hidden");
   boardListWrapper.classList.toggle("boards-list");
 }
@@ -81,6 +82,7 @@ function updateBoardList() {
     const boardItemText = document.createElement("p");
     boardItemText.classList.add("board-name-text");
     boardItemText.textContent = boards[i].boardName
+    boardItemText.dataset.boardName = boards[i].boardName
     
 
 

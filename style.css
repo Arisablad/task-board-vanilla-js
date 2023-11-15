@@ -114,7 +114,7 @@ color: whitesmoke;
 #boards{
     display: flex;
     flex-direction: column;
-    gap: 12px
+    gap: 12px;
 }
 .board-name{
     font-size: 2rem;
@@ -126,6 +126,7 @@ color: whitesmoke;
     transition: all 0.3s ease-in;
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 .board-name:hover{
     background-color: rgb(65, 114, 116);
@@ -140,6 +141,28 @@ color: whitesmoke;
     max-width: 12rem;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.board-name-text::after{
+    content: "Full board Name:"attr(data-board-name);
+    position: absolute;
+    background-color: rgb(0, 132, 255);
+    padding: 0.3rem;
+    font-size: 1.2rem;
+    top: 6px;
+    right: -610px;
+    border-radius: 0.4rem;
+    min-width: 600px;
+    max-width: 600px;
+    transition: all 0.3s ease-in-out;
+    word-wrap: break-word;
+    max-height: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    z-index: 60;
+}
+.board-name-text:hover::after{
+    opacity: 0.9;
 }
 
 
@@ -185,7 +208,7 @@ color: whitesmoke;
     cursor: help;
 }
 .card-title::before{
-    top: -20px;
+    top: -40px;
     background-color: beige;
     width: fit-content;
     max-width: 900px;
@@ -194,10 +217,11 @@ color: whitesmoke;
     opacity: 0;
     transition: all 0.6s ease-in-out;
     z-index: 60;
-    padding: 2rem;
+    padding: 1.4rem;
     overflow: hidden;
     text-overflow: ellipsis;
     border-radius: 0.6rem;
+    margin-bottom: 20px;
 }
 .card-title:hover::before{
     opacity: 1;
