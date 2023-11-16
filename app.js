@@ -231,6 +231,15 @@ function createCardElement(card) {
   tasksList.classList.add("tasks-list");
   tasksList.setAttribute("card-tasks-list-id", card.cardId);
 
+
+
+  // Add event listeners to allow drag and drop 
+  tasksList.addEventListener("dragover", (event)=>{allowDrop(event)})
+  tasksList.addEventListener("drop", (event) =>{drop(event)})
+
+
+
+
   const formAddTaskWrapper = document.createElement("form")
   formAddTaskWrapper.classList.add("form-add-task")
 
@@ -412,13 +421,23 @@ function createTaskElement(task, card) {
     })
 
 
-
     // APPENDING ELEMENTS IN CORRECT ORDER
     // taskOptionsWrapper.appendChild(editTaskButton)
     taskOptionsWrapper.appendChild(removeTaskButton)
     
     taskElement.appendChild(taskTitle)
     taskElement.appendChild(taskOptionsWrapper)
+
+
+    // Listener that allows task being dragged
+    taskElement.addEventListener("dragstart", (event)=>{
+      drag(event)
+      setTimeout(()=>taskElement.classList.add("dragging"),0)
+    })
+    taskElement.addEventListener("dragend", (event)=>{
+      taskElement.classList.remove("dragging")
+    })
+
 
     return taskElement
 }
@@ -433,6 +452,37 @@ function createTaskElement(task, card) {
     // DRAGABLE
     function allowDrop(event) {
       event.preventDefault();
+
+      const draggingItem = document.querySelector(".dragging")
+      const taskListWrapper = document.querySelector(".tasks-list")
+      // GETTING ALL ITEMS EXPECT CURRENTLY DRAGGING
+      const siblings = [...taskListWrapper.querySelectorAll(".task:not(.dragging)")]
+
+      // Finding sibling after which dragging item should be placed
+      const nextSibling = siblings.find(sibling => {
+        return event.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+      })
+      taskListWrapper.insertBefore(draggingItem, nextSibling)
+      console.log("nextSibling", nextSibling)
+    }
+    function drag(event) {
+      event.dataTransfer.setData("todo-item", event.target.getAttribute("task-element-id"));
+    }
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("todo-item");
+      console.log("eventTARGET ", ev.target)
+
+      if(ev.target.classList.contains("tasks-list")){
+        console.log("event.target.classList", true)
+        ev.target.appendChild(document.querySelector(`[task-element-id="${data}"]`));
+      }else if(ev.target.parentElement.classList.contains("tasks-list")){
+        console.log("event.target.parentElement.classList", true)
+        ev.target.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
+      }else{
+        console.log("event.target.parentElement.parentElement.classList", true)
+        ev.target.parentElement.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
+      }
     }
 
 

@@ -292,7 +292,7 @@ input, textarea {
 
 .card{
     flex:none;
-    width: 25rem;
+    width: 26rem;
     background: var(--list-background);
     min-height: 300px;
     padding: 0.6rem;
@@ -306,6 +306,7 @@ input, textarea {
     justify-content: space-between;
     align-items: center;
     position: relative;
+    padding: 0.9rem;
 }
 
 .card-title{
@@ -356,6 +357,8 @@ input, textarea {
 .tasks-wrapper{
     display: flex;
     flex-direction: column;
+    min-width: 100%;
+    min-height: 300px;
     max-height: 600px;
     overflow-y: auto;
     gap:1rem;
@@ -466,6 +469,11 @@ input, textarea {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    width: 100%;
+    border: 2px solid rgb(181, 196, 209);
+    border-radius: 0.6rem;
+    padding: 0.4rem;
+    flex: 1;
 }
 .task{
     background-color: var(--ds-surface-raised, #ffffff);
@@ -485,6 +493,11 @@ input, textarea {
     position: relative;
     cursor: move;
 }
+
+.task.dragging :where(.task-title){
+    opacity: 0;
+}
+
 .task:hover{
     border: 2px solid #06142c40;
     --remove-task-button: block;
@@ -638,3 +651,4 @@ input, textarea {
 .hidden{
     display: none;
 }
+
