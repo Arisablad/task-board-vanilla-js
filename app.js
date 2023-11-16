@@ -235,7 +235,7 @@ function createCardElement(card) {
 
   // Add event listeners to allow drag and drop 
   tasksList.addEventListener("dragover", (event)=>{allowDrop(event)})
-  tasksList.addEventListener("drop", (event) =>{drop(event)})
+  // tasksList.addEventListener("drop", (event) =>{drop(event)})
 
 
 
@@ -453,36 +453,55 @@ function createTaskElement(task, card) {
     function allowDrop(event) {
       event.preventDefault();
 
-      const draggingItem = document.querySelector(".dragging")
-      const taskListWrapper = document.querySelector(".tasks-list")
-      // GETTING ALL ITEMS EXPECT CURRENTLY DRAGGING
-      const siblings = [...taskListWrapper.querySelectorAll(".task:not(.dragging)")]
+      const bottomTask = insertAboveTask(event.target, event.clientY)
+      const curTask = document.querySelector(".dragging")
 
-      // Finding sibling after which dragging item should be placed
-      const nextSibling = siblings.find(sibling => {
-        return event.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
-      })
-      taskListWrapper.insertBefore(draggingItem, nextSibling)
-      console.log("nextSibling", nextSibling)
+      if(!bottomTask){
+        event.target.appendChild(curTask)
+      } else{
+        event.target.insertBefore(curTask, bottomTask)
+      }
+
     }
+
+    function insertAboveTask(zone, mouseY){
+      const els = zone.querySelectorAll(".task:not(.dragging)")
+      let closestTask = null
+      let closestTaskOffset = Number.NEGATIVE_INFINITY
+
+      els.forEach((task)=>{
+          const {top} = task.getBoundingClientRect()
+          const offset = mouseY - top
+          if(offset < 0 && offset > closestTaskOffset){
+            closestTask = task
+            closestTaskOffset = offset
+          }
+      })
+      return closestTask
+    }
+
     function drag(event) {
       event.dataTransfer.setData("todo-item", event.target.getAttribute("task-element-id"));
     }
-    function drop(ev) {
-      ev.preventDefault();
-      var data = ev.dataTransfer.getData("todo-item");
-      console.log("eventTARGET ", ev.target)
+    // function drop(ev) {
+    //   ev.preventDefault();
+    //   var data = ev.dataTransfer.getData("todo-item");
+    //   console.log("eventTARGET ", ev.target)
 
-      if(ev.target.classList.contains("tasks-list")){
-        console.log("event.target.classList", true)
-        ev.target.appendChild(document.querySelector(`[task-element-id="${data}"]`));
-      }else if(ev.target.parentElement.classList.contains("tasks-list")){
-        console.log("event.target.parentElement.classList", true)
-        ev.target.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
-      }else{
-        console.log("event.target.parentElement.parentElement.classList", true)
-        ev.target.parentElement.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
-      }
+      // if(ev.target.classList.contains("tasks-list")){
+      //   console.log("event.target.classList", true)
+      //   ev.target.appendChild(document.querySelector(`[task-element-id="${data}"]`));
+      // }else if(ev.target.parentElement.classList.contains("tasks-list")){
+      //   console.log("event.target.parentElement.classList", true)
+      //   ev.target.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
+      // }else{
+      //   console.log("event.target.parentElement.parentElement.classList", true)
+      //   ev.target.parentElement.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
+      // }
+    // }
+
+    function validateInsertingAfterDrop(){
+
     }
 
 
