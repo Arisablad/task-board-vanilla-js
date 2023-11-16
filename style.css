@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=BlinkMacSystemFont|Segoe+UI|Roboto|Noto+Sans|Ubuntu|Droid+Sans|Helvetica+Neue');
+
+
+
 *{
     margin: 0;
     padding: 0;
@@ -5,16 +9,79 @@
 }
 
 :root{
-    --display-tooltip-sidebar: "none"
+    --display-tooltip-sidebar: none;
+    --list-background: #ebecf0;
+    --ds-surface-raised : #fff;
+    --ds-text:#172b4d;
+    --dynamic-background-transparent: hsla(218,20.4%,39.4%,0.9);
+    --dynamic-text-transparent: hsla(0,0%,100%,0.16);
+    --remove-task-button: none;
 }
 
 body {
 width: 100vh;
 height: 100vh;
-background: #333;
+background-color: rgb(55, 72, 102);
+background-image: url("https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/alien.svg");
 color: whitesmoke;
 overflow-x: hidden;
+font-family: BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
 }
+
+
+
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #8f8192 #dcdada;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 13px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #dcdada;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #8f8192;
+    border-radius: 12px;
+    border: 2px solid #dedede;
+  }
+
+
+
+
+
+body, button, input, select, textarea {
+    color: var(--ds-text,#172b4d);
+    font-display: swap;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+input, textarea {
+    background-color: var(--ds-background-input,#fff);
+    border: none;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 2px var(--ds-border-input,#091e4224);
+    box-sizing: border-box;
+    display: block;
+    line-height: 20px;
+    margin-bottom: 12px;
+    outline: none;
+    padding: 8px 12px;
+    transition-duration: 85ms;
+    transition-property: background-color,border-color,box-shadow;
+    transition-timing-function: ease;
+}
+
 
 
 .navigation{
@@ -38,8 +105,8 @@ overflow-x: hidden;
     position: absolute;
     left: -280px;
     top: 0;
-    background-color: burlywood;
-    transition: all 0.5s ease-in;
+    transition: all 1.5s ease-in;
+    background-color: var(--dynamic-background-transparent, var(--ds-surface, #ffffff));
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -51,8 +118,10 @@ overflow-x: hidden;
     position: absolute;
     left: 0px;
     top: 0;
-    background-color: burlywood;
-    transition: all 0.5s ease-in;
+    background-color: var(--dynamic-background-transparent, var(--ds-surface, #ffffff));
+    backdrop-filter: blur(6px);
+    transition: all 1.5s ease-in;
+    box-shadow: 1px 0px 0px 0px var(--dynamic-text-transparent);
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -87,33 +156,53 @@ overflow-x: hidden;
     align-items: center;
     width: 100%;
     margin-bottom: 26px;
+    border-bottom: 2px solid rgba(240, 248, 255, 0.37);
+    padding: 0.6rem ;
 }
 .sidebar-header-heading{
     font-weight: 600;
     font-size: 1.9rem;
+    color: #fff;
+    line-height: 40px;
 }
 
 .add-input{
     width: 100%;
-    border: none;
-    background-color: transparent;
-    border-bottom: 2px solid #444;
-    font-size: 2rem;
+    font-size: 1.2rem;
+    background-color: #ffffff3d;
+    border-radius: 12px;
+    padding: 12px;
+    color: #fff;
+}
+.add-input::placeholder{
+    color: #fff;
 }
 .add-input:focus{
-    background-color: transparent;
     outline: none;
 }
-#add-board-button{
-    padding: 16px;
-    border: none;
-    border-radius: 1.2rem;
-    background-color: #6a0;
-    color: white;
-    cursor: pointer;
+.add-input:hover{
+    background-color: #ffffff21;
 }
-#add-board-button:hover{
-    background-color: rgb(70, 107, 14);
+#add-board-button{
+    border: none;
+    padding: 0.2rem;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    background: transparent;
+}
+#add-board-button > svg:hover path{
+    fill: rgb(221, 252, 229)
+}
+
+.add-board-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.9rem;
 }
 
 
@@ -123,8 +212,7 @@ overflow-x: hidden;
     gap: 12px;
 }
 .board-name{
-    font-size: 2rem;
-    background-color: cadetblue;
+    font-size: 1rem;
     padding: 6px;
     padding-inline: 12px;
     border-radius: 0.4rem;
@@ -132,21 +220,31 @@ overflow-x: hidden;
     transition: all 0.3s ease-in;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: relative;
+    color: white;
+    border: 1px solid rgb(182, 182, 181);
 }
 .board-name:hover{
-    background-color: rgb(65, 114, 116);
+    background-color: rgba(255, 255,255,0.4);
 }
 #board-name-header{
     font-size: 2rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     letter-spacing: 3px;
     font-weight: 800;
+    color: white;
+    border: 2px solid rgba(240, 248, 255, 0.658);
+    border-radius: 0.6rem;
+    padding: 0.9rem;
 }
 .board-name-text{
     max-width: 12rem;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.board-name-text:hover{
+    --display-tooltip-sidebar:block;
 }
 .board-name-text::after{
     content: "Full board Name:"attr(data-board-name);
@@ -154,18 +252,19 @@ overflow-x: hidden;
     background-color: rgb(0, 132, 255);
     padding: 0.3rem;
     font-size: 1.2rem;
-    top: 6px;
+    top: 0px;
+    left: 0;
     right: -610px;
     border-radius: 0.4rem;
-    min-width: 600px;
-    max-width: 600px;
-    transition: all 0.3s ease-in-out;
+    min-width: 300px;
+    max-width: 300px;
+    transition: all 0.6s ease-in;
     word-wrap: break-word;
     max-height: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     opacity: 0;
-    z-index: 60;
+    z-index: 500;
     display: var(--display-tooltip-sidebar)
 }
 .board-name-text:hover::after{
@@ -177,26 +276,28 @@ overflow-x: hidden;
 .cards-list-wrapper{
     min-width: calc(100% - 280px);
     min-height: 950px;
+    max-height: 950px;
     margin-left: 280px;
     overflow-x: auto;
     display: flex;
     gap: 0.8rem;
+    padding: 2.1rem;
 }
 .cards-list{
     padding-left: 2.4rem;
     display: flex;
     gap: 1.6rem;
+    height: 100%;
 }
 
 .card{
     flex:none;
-    width: 30rem;
-    background-color: gainsboro;
-    height: fit-content;
+    width: 25rem;
+    background: var(--list-background);
     min-height: 300px;
-    padding: 1.6rem;
+    padding: 0.6rem;
     color: #444;
-    border-radius: 2.1rem;
+    border-radius: 0.6rem;
 }
 
 
@@ -208,7 +309,7 @@ overflow-x: hidden;
 }
 
 .card-title{
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 600;
     max-width: 22rem;
     overflow: hidden;
@@ -217,11 +318,11 @@ overflow-x: hidden;
 }
 .card-title::before{
     top: -60px;
-    left: -80px;
+    left: -90px;
     background-color: beige;
     width: fit-content;
     max-width: 250px;
-    max-height: 90px;
+    max-height: 60px;
     word-wrap: break-word;
     overflow-y: auto;
     content: "Full Card Name: "attr(data-title);
@@ -244,6 +345,8 @@ overflow-x: hidden;
     cursor: pointer;
     border-radius: 0.8rem;
     transition: all 0.3s ease-in-out;
+    background-color: var(--ds-text);
+    color: whitesmoke;
 }
 .card-option:hover{
     background-color: #444;
@@ -253,12 +356,19 @@ overflow-x: hidden;
 .tasks-wrapper{
     display: flex;
     flex-direction: column;
-    gap:1rem
+    max-height: 600px;
+    overflow-y: auto;
+    gap:1rem;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    padding: 0.6rem;
 }
 .add-task{
-    padding: 16px;
+    position: absolute;
+    right: 0;
     border: none;
-    border-radius: 1.2rem;
+    padding: 0.8rem;
+    border-radius: 0.3rem;
     background-color: #6a0;
     color: white;
     cursor: pointer;
@@ -270,26 +380,59 @@ overflow-x: hidden;
 .form-add-task{
     display: flex;
     flex-direction: column;
-    gap: 1.4rem ;
+    justify-content: center;
+    gap: 0.6rem;
+    align-items: center;
+    position: relative;
+}
+.form-add-task > .add-input{
+        background-color: var(--ds-surface-raised, #ffffff);
+        box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+        color: var(--ds-text);
+        border-radius: 8px;
+        border: none;
+        height: 54px;
+        height: auto;
+        margin: 0;
+        max-height: 162px;
+        min-height: 54px;
+        overflow: hidden;
+        overflow-wrap: break-word;
+        overflow-y: auto;
+        padding: 8px 12px;
+        padding-right: 110px;
+        resize: none;
+} 
+.form-add-task > .add-input::placeholder{
+    color: var(--ds-text);
+}
+.form-add-task > .add-input:hover::placeholder{
+    color: white;
+}
+.form-add-task > .add-input:hover{
+    background-color: rgba(21, 61, 129, 0.726);
+    color: white;
 }
 
 .add-card{
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 1.8rem;
+    align-items: center;
+    justify-content: flex-start;
     min-width: 30rem;
-    padding: 2.4rem;
 }
 .add-card-button{
     padding: 16px;
     border: none;
     border-radius: 1.2rem;
-    background-color: #6a0;
+    width: fit-content;
     color: white;
     cursor: pointer;
+    font-size: 3rem;
     transition: all 0.4s ease;
     text-align: center;
+    background-color: transparent;
 }
 
 .no-board-selected{
@@ -297,17 +440,25 @@ overflow-x: hidden;
     width: 100%;
     position: relative;
     padding: 8rem;
+    color: white;
+    font-weight: 600;
     /* background-color: aliceblue; */
 }
 .no-board-selected::before{
     content: "\2196";
     position: absolute;
-    top: 0;
+    top: 25px;
     left: 0;
-    background-color: blue;
     padding-inline: 1.2rem;
     font-size: 4rem;
     border-radius: 12px;
+}
+.boards-title{
+    font-size: 2rem;
+    font-weight: 600;
+    color: lightblue;
+    padding-bottom: 0.6rem;
+    text-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
 }
 
 .tasks-list{
@@ -317,33 +468,62 @@ overflow-x: hidden;
     gap: 0.8rem;
 }
 .task{
-    padding: 0.8rem;
-    background-color: darkslategrey;
-    display: flex;
-    justify-content: space-between;
-    color: aliceblue;
-    border-radius: 0.8rem;
+    background-color: var(--ds-surface-raised, #ffffff);
+    color: #1742b47b;
+    box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+    border-radius: 8px;
+    border: none;
+    height: 54px;
+    height: auto;
+    margin: 0;
+    max-height: 162px;
+    min-height: 54px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 8px 12px;
+    resize: none;
+    position: relative;
+    cursor: move;
+}
+.task:hover{
+    border: 2px solid #06142c40;
+    --remove-task-button: block;
 }
 .task-options-wrapper{
     display: flex;
     gap: 0.8rem;
 }
 
-.edit-task-button, .remove-task-button, .remove-board{
-    padding: 0.6rem;
+
+.remove-board{
+    padding: 0.2rem 0.4rem;
     border: none;
     cursor: pointer;
-    border-radius: 0.6rem;
+    background-color: transparent;
     transition: all 0.4s ease-in-out;
     color: whitesmoke;
+    font-size: 1.2rem;
+}
+.remove-board:hover{
+    background-color: rgba(94, 86, 86, 0.4);
 }
 
-.edit-task-button{
-    background-color: rgb(79, 61, 197);
-}
-
-.remove-task-button, .remove-board {
+.remove-task-button {
     background-color: rgb(240, 55, 55);
+}
+
+.remove-task-button{
+    display: var(--remove-task-button);
+    position: absolute;
+    padding: 0.5rem 1rem;
+    top: -2px;
+    right: 0;
+    border-radius: 0.7rem;
+    background-color: #f44336;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border:none
 }
 
 .modal-alert{
@@ -401,8 +581,8 @@ overflow-x: hidden;
     justify-content: center;
     font-size: 1.4rem;
     border-radius: 0.6rem;
-    font-family: 'Times New Roman', Times, serif;
     transition: all 2.3s ease;
+    color: white;
 }
 .toast-hidden{
     position: fixed;
@@ -416,8 +596,8 @@ overflow-x: hidden;
     justify-content: center;
     font-size: 1.4rem;
     border-radius: 0.6rem;
-    font-family: 'Times New Roman', Times, serif;
     transition: all 2.3s ease;
+    color: white;
 }
 
 .green{
@@ -429,10 +609,10 @@ overflow-x: hidden;
 
 .toast-title{
     font-size: 1.6rem;
-    font-weight: 600;
+    font-weight: 400;
 }
 .toast-description{
-    font-weight: 500;
+    font-weight: 400;
 }
 
 

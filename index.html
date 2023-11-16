@@ -32,19 +32,23 @@
         </nav>
         <div id="board-list-wrapper" class="boards-list-hidden hidden">
             <div class="sidebar-header">
-                <p class="sidebar-header-heading">Trelo Clone</p>
+                <p class="sidebar-header-heading">TaskBoard Arisablad</p>
                 <button class="close-menu">X</button>
             </div>
-            <p>BOARDS</p>
+            <p class="boards-title">Boards List</p>
 
             <div id="boards">
                 <!-- <div class="board-name">1</div>
                 <div class="board-name">2</div> -->
             </div>
 
-            <form>
+            <form class="add-board-form">
                 <input type="text" id="add-board-input" class="add-input" placeholder="board-name">
-                <button id="add-board-button" type="submit">Add Board</button>
+                <button id="add-board-button" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+                        <path fill="white" d="M20 14h-6v6h-4v-6H4v-4h6V4h4v6h6v4Z" />
+                    </svg>
+                </button>
             </form>
         </div>
         <div class="cards-list-wrapper">
@@ -66,7 +70,7 @@
             </div>
 
             <form class="add-card">
-                <input type="text" id="add-card-input" class="add-input" placeholder="card-title"></input>
+                <input type="text" id="add-card-input" class="add-input" placeholder="Add new card"></input>
                 <button class="add-card-button" type="submit">+</button>
             </form>
         </div>

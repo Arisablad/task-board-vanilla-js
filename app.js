@@ -1,3 +1,8 @@
+
+
+const removeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M5.75 3V1.5h4.5V3h-4.5Zm-1.5 0V1a1 1 0 0 1 1-1h5.5a1 1 0 0 1 1 1v2h2.5a.75.75 0 0 1 0 1.5h-.365l-.743 9.653A2 2 0 0 1 11.148 16H4.852a2 2 0 0 1-1.994-1.847L2.115 4.5H1.75a.75.75 0 0 1 0-1.5h2.5Zm-.63 1.5h8.76l-.734 9.538a.5.5 0 0 1-.498.462H4.852a.5.5 0 0 1-.498-.462L3.62 4.5Z" clip-rule="evenodd"/></svg>`
+const clearIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 1h6v8.5h6V23H3V9.5h6V1Zm2 2v8.5H5V14h14v-2.5h-6V3h-2Zm8 13H5v5h9v-3h2v3h3v-5Z"/></svg>`
+const addTaskIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m16 2l5 5v14.008a.993.993 0 0 1-.993.992H3.993A1 1 0 0 1 3 21.008V2.992C3 2.444 3.445 2 3.993 2H16Zm-5 9H8v2h3v3h2v-3h3v-2h-3V8h-2v3Z"/></svg>`
 // ELEMENTS
 // Buttons
 const expandBoardsButton = document.querySelector(".expand-boards");
@@ -16,15 +21,6 @@ let boards = [];
 let currentBoard = null;
 
 function toggleMenu() {
-  const boardsTitles =  document.querySelectorAll(".board-name-text")
-
-  boardsTitles && boardsTitles.length > 0 && boardsTitles.forEach(text=> {
-    if(boardListWrapper.classList.contains("hidden")){
-      text.style.setProperty('--display-tooltip-sidebar','block');
-    } else{
-      text.style.setProperty('--display-tooltip-sidebar', "hidden");
-    }
-  })
   boardListWrapper.classList.toggle("hidden")
   boardListWrapper.classList.toggle("boards-list-hidden");
   boardListWrapper.classList.toggle("boards-list");
@@ -62,7 +58,7 @@ function updateBoardList() {
     removeBoardButton = document.createElement("button");
     removeBoardButton.classList.add("remove-board");
     removeBoardButton.setAttribute("board-id", boards[i].boardId);
-    removeBoardButton.innerText = "X";
+    removeBoardButton.innerHTML = (`${removeIcon}`)
     removeBoardButton.addEventListener("click", (event) => {
         event.stopPropagation()
        
@@ -236,17 +232,17 @@ function createCardElement(card) {
   tasksList.setAttribute("card-tasks-list-id", card.cardId);
 
   const formAddTaskWrapper = document.createElement("form")
-  formAddTaskWrapper.classList.add("form-add-task-")
+  formAddTaskWrapper.classList.add("form-add-task")
 
 
   const addTaskInput = document.createElement("input");
   addTaskInput.classList.add("add-input");
   addTaskInput.setAttribute("add-task-input-id", card.cardId);
-  addTaskInput.setAttribute("placeholder", "add-task");
+  addTaskInput.setAttribute("placeholder", "Type your task name");
   const addTaskButton = document.createElement("button");
   addTaskButton.classList.add("add-task");
   addTaskButton.setAttribute("add-task-button-id", card.cardId);
-  addTaskButton.innerText = "Add Task";
+  addTaskButton.innerHTML = `${addTaskIcon}`;
   addTaskButton.type = "submit"
 
   
@@ -255,8 +251,8 @@ function createCardElement(card) {
   formAddTaskWrapper.appendChild(addTaskButton)
 
   // cardTasks.appendChild(addTaskInput);
-  cardTasks.appendChild(formAddTaskWrapper);
   cardItem.appendChild(cardTasks);
+  cardItem.appendChild(formAddTaskWrapper);
   return cardItem;
 }
 
@@ -296,7 +292,7 @@ function showCardOptions(event, cardId){
 
 function createRemoveCardOptionButton(cardId){
     const removeCardOption = document.createElement("button")
-    removeCardOption.innerText = "remove"
+    removeCardOption.innerHTML = `${removeIcon}`
     removeCardOption.setAttribute("remove-card-option-id", cardId)
     removeCardOption.classList.add("remove-card-button")
 
@@ -312,7 +308,7 @@ function createRemoveCardOptionButton(cardId){
 
 function createClearCardOptionButton(cardId){
   const clearCardOption = document.createElement("button")
-  clearCardOption.innerText = "Clear"
+  clearCardOption.innerHTML = (`${clearIcon}`)
   clearCardOption.setAttribute("clear-card-option-id", cardId)
   clearCardOption.classList.add("clear-card-button")
 
@@ -384,6 +380,7 @@ function createTaskElement(task, card) {
   const taskElement = document.createElement("div");
   taskElement.classList.add("task");
   taskElement.setAttribute("task-element-id", task.taskId);
+  taskElement.setAttribute("draggable", true)
   const taskTitle = document.createElement("p");
   taskTitle.textContent = task.taskName;
   taskTitle.classList.add("task-title");
@@ -403,7 +400,7 @@ function createTaskElement(task, card) {
 
 
     const removeTaskButton = document.createElement("button")
-    removeTaskButton.textContent = "remove"
+    removeTaskButton.textContent = "X"
     removeTaskButton.classList.add("remove-task-button")
     removeTaskButton.setAttribute("remove-task-button-id", task.taskId) 
 
@@ -430,6 +427,13 @@ function createTaskElement(task, card) {
         cardToRemove.tasks = cardToRemove.tasks.filter((task) => task.taskId !== taskToRemove.taskId)
     }
 
+
+
+
+    // DRAGABLE
+    function allowDrop(event) {
+      event.preventDefault();
+    }
 
 
 
