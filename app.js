@@ -235,7 +235,6 @@ function createCardElement(card) {
 
   // Add event listeners to allow drag and drop 
   tasksList.addEventListener("dragover", (event)=>{allowDrop(event)})
-  // tasksList.addEventListener("drop", (event) =>{drop(event)})
 
 
 
@@ -456,9 +455,11 @@ function createTaskElement(task, card) {
       const bottomTask = insertAboveTask(event.target, event.clientY)
       const curTask = document.querySelector(".dragging")
 
-      if(!bottomTask){
+
+
+      if(!bottomTask && event.target.classList.contains("tasks-list")){
         event.target.appendChild(curTask)
-      } else{
+      } else if(bottomTask && event.target.classList.contains("tasks-list")){
         event.target.insertBefore(curTask, bottomTask)
       }
 
@@ -482,26 +483,6 @@ function createTaskElement(task, card) {
 
     function drag(event) {
       event.dataTransfer.setData("todo-item", event.target.getAttribute("task-element-id"));
-    }
-    // function drop(ev) {
-    //   ev.preventDefault();
-    //   var data = ev.dataTransfer.getData("todo-item");
-    //   console.log("eventTARGET ", ev.target)
-
-      // if(ev.target.classList.contains("tasks-list")){
-      //   console.log("event.target.classList", true)
-      //   ev.target.appendChild(document.querySelector(`[task-element-id="${data}"]`));
-      // }else if(ev.target.parentElement.classList.contains("tasks-list")){
-      //   console.log("event.target.parentElement.classList", true)
-      //   ev.target.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
-      // }else{
-      //   console.log("event.target.parentElement.parentElement.classList", true)
-      //   ev.target.parentElement.parentElement.appendChild(document.querySelector(`[task-element-id="${data}"]`));
-      // }
-    // }
-
-    function validateInsertingAfterDrop(){
-
     }
 
 
