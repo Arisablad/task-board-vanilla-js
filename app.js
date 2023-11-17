@@ -497,7 +497,6 @@ function createTaskElement(task, card) {
       event.preventDefault();
       const taskId = event.dataTransfer.getData("todo-item");
       // const targetBoardId = event.target.getAttribute("board-id");
-      console.log("targetCard", targetCard)
       let targetCardId = event.target.getAttribute("card-tasks-list-id");
       if(!targetCardId){
         targetCardId = event.target.parentElement.getAttribute("card-tasks-list-id")
@@ -526,6 +525,7 @@ function createTaskElement(task, card) {
     
       // Add task to target card
       targetCard.tasks.push(task);
+      console.log("targetCard", targetCard)
     
       // Re-render both cards
       renderTasksForCard(sourceCard);
