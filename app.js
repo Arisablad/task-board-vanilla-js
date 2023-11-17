@@ -19,6 +19,7 @@ const cardsList = document.getElementById("cards-list");
 // GLOBALS
 let boards = [];
 let currentBoard = null;
+let sourceCardId = null
 
 function toggleMenu() {
   boardListWrapper.classList.toggle("hidden")
@@ -64,7 +65,6 @@ function updateBoardList() {
        
         // TARGETING TO SELECT FIRST BOARD AFTER REMOVING AVAILABLE ON LIST
         if(event.target.parentElement.parentElement.firstChild && boards.length > 1){
-            console.log("exist")
             event.target.parentElement.parentElement.firstChild.click()
         } else {
             currentBoard = null
@@ -105,7 +105,6 @@ function addListenersForBoards() {
   const boardNames = boardsList.querySelectorAll(".board-name");
   boardNames.forEach((previousBoard) => {
     previousBoard.addEventListener("click", (event) => {
-        console.log("clicked" )
       currentBoard = boards.find(
         (board) => board.boardId === previousBoard.getAttribute("board-id")
       );
@@ -235,7 +234,7 @@ function createCardElement(card) {
 
   // Add event listeners to allow drag and drop 
   tasksList.addEventListener("dragover", (event)=>{allowDrop(event)})
-
+  tasksList.addEventListener("drop", (event)=>{drop(event)})
 
 
 
@@ -293,7 +292,6 @@ function showCardOptions(event, cardId){
 
   clickedCard.appendChild(optionsCardList)
   // optionsCardList.setAttribute("options-card-list-id")
-  console.log("clickedCard,", clickedCard)
 }
 
 
@@ -430,6 +428,7 @@ function createTaskElement(task, card) {
 
     // Listener that allows task being dragged
     taskElement.addEventListener("dragstart", (event)=>{
+      sourceCardId = event.target.parentElement.getAttribute("card-tasks-list-id")
       drag(event)
       setTimeout(()=>taskElement.classList.add("dragging"),0)
     })
@@ -463,6 +462,13 @@ function createTaskElement(task, card) {
         event.target.insertBefore(curTask, bottomTask)
       }
 
+      const draggedIntoCardId = curTask.parentElement.getAttribute("card-tasks-list-id")
+      // if(cardWithNewTask.tasks.some(task => task.taskId === curTask.getAttribute("task-element-id"))){
+      //   return 
+      // }else{
+      //   cardWithNewTask.task.s
+      // }
+
     }
 
     function insertAboveTask(zone, mouseY){
@@ -483,7 +489,48 @@ function createTaskElement(task, card) {
 
     function drag(event) {
       event.dataTransfer.setData("todo-item", event.target.getAttribute("task-element-id"));
+      event.dataTransfer.setData("source-card", event.target.parentElement.getAttribute("card-tasks-list-id"));
     }
+
+
+    function drop(event){
+      event.preventDefault();
+      const taskId = event.dataTransfer.getData("todo-item");
+      // const targetBoardId = event.target.getAttribute("board-id");
+      let targetCardId = event.target.getAttribute("card-tasks-list-id");
+      if(!targetCardId){
+        targetCardId = event.target.parentElement.getAttribute("card-tasks-list-id")
+      }
+    
+      const sourceBoard = boards.find((board) =>
+        board.cards.some((card) => card.cardId === sourceCardId)
+      );
+
+
+
+    
+      const sourceCard = sourceBoard.cards.find(
+        (card) => card.cardId === sourceCardId
+      );
+      const targetCard = currentBoard.cards.find(
+        (card) => card.cardId === targetCardId
+      );
+    
+      const task = sourceCard.tasks.find((task) => task.taskId === taskId);
+    
+      // Remove task from source card
+      sourceCard.tasks = sourceCard.tasks.filter(
+        (task) => task.taskId !== taskId
+      );
+    
+      // Add task to target card
+      targetCard.tasks.push(task);
+    
+      // Re-render both cards
+      renderTasksForCard(sourceCard);
+      renderTasksForCard(targetCard);
+    }
+    
 
 
 
