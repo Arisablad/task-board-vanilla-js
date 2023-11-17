@@ -373,7 +373,7 @@ function renderTasksForCard(card) {
   // RENDER SOME INFO ELEMENT IF CARD DOESNT HAVE TASKS YET
   if (card.tasks.length === 0) {
     const noTasksElement = document.createElement("p");
-    noTasksElement.innerText = "No tasks";
+    // noTasksElement.innerText = "No tasks";
     tasksList.appendChild(noTasksElement);
     return;
   }
