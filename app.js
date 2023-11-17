@@ -524,9 +524,10 @@ function createTaskElement(task, card) {
       );
     
       // Add task to target card
+
+      if(targetCard.tasks){
       targetCard.tasks.push(task);
-      console.log("targetCard", targetCard)
-    
+      }    
       // Re-render both cards
       renderTasksForCard(sourceCard);
       renderTasksForCard(targetCard);
